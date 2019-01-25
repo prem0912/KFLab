@@ -25,8 +25,6 @@ ks registry add kubeflow github.com/kubeflow/kubeflow/tree/${KUBEFLOW_GITHUB_VER
 ## Private registry that contains ${APP_NAME} example components
 ks registry add ciscoai github.com/CiscoAI/kubeflow-examples/tree/${CISCOAI_GITHUB_VERSION}/tf-mnist/pkg
 
-ks registry add kubebench github.com/kubeflow/kubebench/tree/${KB_VERSION}/kubebench
-
 #5. Install necessary packages from registries
 
 ks pkg install kubeflow/core@${KUBEFLOW_GITHUB_VERSION}
@@ -36,7 +34,7 @@ ks pkg install ciscoai/nfs-server@${CISCOAI_GITHUB_VERSION}
 ks pkg install ciscoai/nfs-volume@${CISCOAI_GITHUB_VERSION}
 #ks pkg install ciscoai/tf-${APP_NAME}job@${CISCOAI_GITHUB_VERSION}
 
-ks pkg install kubebench/kubebench-job@${KB_VERSION}
+ks pkg install kubeflow/kubebench@${KUBEFLOW_GITHUB_VERSION}
 #6. Deploy kubeflow core components to K8s cluster.
 
 # If you are doing this on GCP, you need to run the following command first:
