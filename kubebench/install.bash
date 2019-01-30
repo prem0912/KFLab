@@ -22,53 +22,39 @@ ks env set ${KF_ENV} --namespace ${NAMESPACE}
 ## Public registry that contains the official kubeflow components
 ks registry add kubeflow github.com/kubeflow/kubeflow/tree/${KUBEFLOW_GITHUB_VERSION}/kubeflow
 
+ks registry add kubebench github.com/kubeflow/kubebench/tree/${KB_VERSION}/kubebench
+
 ## Private registry that contains ${APP_NAME} example components
 ks registry add ciscoai github.com/CiscoAI/kubeflow-examples/tree/${CISCOAI_GITHUB_VERSION}/tf-mnist/pkg
 
-ks registry add kubebench github.com/kubeflow/kubebench/tree/${KB_VERSION}/kubebench
-
 #5. Install necessary packages from registries
 
-ks pkg install kubeflow/core@${KUBEFLOW_GITHUB_VERSION}
+ks pkg install kubeflow/common@${KUBEFLOW_GITHUB_VERSION}
+ks pkg install kubeflow/tf-training@${KUBEFLOW_GITHUB_VERSION}
 ks pkg install kubeflow/argo@${KUBEFLOW_GITHUB_VERSION}
 
-ks pkg install ciscoai/nfs-server@${CISCOAI_GITHUB_VERSION}
-ks pkg install ciscoai/nfs-volume@${CISCOAI_GITHUB_VERSION}
-#ks pkg install ciscoai/tf-${APP_NAME}job@${CISCOAI_GITHUB_VERSION}
+ks pkg install kubeflow/kubebench@${KUBEFLOW_GITHUB_VERSION}
+ks pkg install kubebench/kubebench-quickstarter@${KB_VERSION}
 
-ks pkg install kubebench/kubebench-job@${KB_VERSION}
 #6. Deploy kubeflow core components to K8s cluster.
 
 # If you are doing this on GCP, you need to run the following command first:
 # kubectl create clusterrolebinding your-user-cluster-admin-binding --clusterrole=cluster-admin --user=<your@email.com>
 
-ks generate centraldashboard centraldashboard
-ks apply ${KF_ENV} -c centraldashboard 
 ks generate tf-job-operator tf-job-operator
 ks apply ${KF_ENV} -c tf-job-operator 
 
 ks generate argo kubeflow-argo
 ks apply ${KF_ENV} -c kubeflow-argo
 
-#7. Deploy NFS server in the k8s cluster **(Optional step)**
+#7. Deploy Kubebench Quick-starter
 
-# If you have already setup a NFS server, you can skip this step and proceed to
-# step 8. Set `NFS_SERVER_IP`to ip of your NFS server
-ks generate nfs-server nfs-server
-ks apply ${KF_ENV} -c nfs-server
-
-#8. Deploy NFS PV/PVC in the k8s cluster **(Optional step)**
-
-# If you have already created NFS PersistentVolume and PersistentVolumeClaim,
-# you can skip this step and proceed to step 9.
-NFS_SERVER_IP=`kubectl -n ${NAMESPACE} get svc/nfs-server  --output=jsonpath={.spec.clusterIP}`
-echo "NFS Server IP: ${NFS_SERVER_IP}"
-ks generate nfs-volume nfs-config-volume  --name=${CONFIG_PVC_NAME}  --nfs_server_ip=${NFS_SERVER_IP} --mountpath=${CONFIG_PVC_MOUNT}
-ks apply ${KF_ENV} -c nfs-config-volume
-ks generate nfs-volume nfs-data-volume  --name=${DATA_PVC_NAME}  --nfs_server_ip=${NFS_SERVER_IP} --mountpath=${DATA_PVC_MOUNT}
-ks apply ${KF_ENV} -c nfs-data-volume
-ks generate nfs-volume nfs-exp-volume  --name=${EXP_PVC_NAME}  --nfs_server_ip=${NFS_SERVER_IP} --mountpath=${EXP_PVC_MOUNT}
-ks apply ${KF_ENV} -c nfs-exp-volume
+ks generate kubebench-quickstarter-service kubebench-quickstarter-service
+ks generate kubebench-quickstarter-volume kubebench-quickstarter-volume
+ks apply ${KF_ENV} -c kubebench-quickstarter-service
+KB_NFS_IP=`kubectl get svc kubebench-nfs-svc -o=jsonpath={.spec.clusterIP} -n ${NAMESPACE}`
+ks param set kubebench-quickstarter-volume nfsServiceIP ${KB_NFS_IP}
+ks apply ${KF_ENV} -c kubebench-quickstarter-volume
 
 #### Installation is complete now ####
 
