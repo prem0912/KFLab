@@ -92,7 +92,7 @@ local job =
     if numPs < 1 then
       error "num_ps must be >= 1"
     else {
-      apiVersion: "kubeflow.org/v1alpha2",
+      apiVersion: "kubeflow.org/v1beta1",
       kind: "TFJob",
       metadata: {
         name: name,
