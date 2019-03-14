@@ -227,3 +227,13 @@ step.
    Forcefully terminate pods using:
    
    	$ kubectl delete pod <pod_name> --force -n kubeflow --grace-period=0
+	
+# Note
+
+If container needs to use an HTTP, HTTPS, or FTP proxy server (for internet connectivity), configure it by setting the environment variables when building docker image. Set the HTTP, HTTPS, or FTP proxy server environment variable in Dockerfile.
+    
+	ENV HTTPS_PROXY "https://127.0.0.1:3001"
+	ENV HTTP_PROXY "http://127.0.0.1:3001"
+	ENV FTP_PROXY "ftp://127.0.0.1:3001"
+	ENV NO_PROXY "*.test.example.com,.example2.com"
+    
