@@ -1,0 +1,36 @@
+{ 
+   "name": "tf-commonjob",
+   "apiVersion": "0.0.1",
+   "kind": "ksonnet.io/parts",
+   "description": "Prototype for Tensorflow common job\n",
+   "author": "Premnath Velmurugan <pvelmuru@cisco.com>",
+   "contributors": [
+      {
+         "name": "Premnath Velmurugan",
+         "email": "pvelmuru@cisco.com"
+      }
+   ],
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/CiscoAI/kubeflow-examples"
+   },
+   "bugs": {
+      "url": "https://github.com/CiscoAI/kubeflow-examples/issues"
+   },
+   "keywords": [
+      "kubeflow",
+      "tensorflow",
+      "database"
+   ],
+   "quickStart": {
+      "prototype": "io.ksonnet.pkg.tf-commonjob",
+      "componentName": "tf-commonjob",
+      "flags": {
+         "name": "tf-commonjob",
+         "namespace": "default"
+      },
+      "comment": "Tensorflow common job"
+   },
+   "license": "Apache 2.0"
+}
+
