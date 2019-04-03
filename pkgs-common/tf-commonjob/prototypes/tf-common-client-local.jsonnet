@@ -76,16 +76,6 @@ local deployment = {
                         "containerPort": 80
                      }
                   ],
-                  "resources": {
-                        "requests": {
-                            "memory": "1Gi",
-                            "cpu": "1",
-                                    },
-                        "limits": {
-                            "memory": "4Gi",
-                            "cpu": "4",
-                         },
-                    },
                }
             ]
          }
