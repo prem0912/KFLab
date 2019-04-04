@@ -1,17 +1,17 @@
 // @apiVersion 0.1
-// @name io.ksonnet.pkg.tf-common-client-local
-// @description A TensorFlow common client
-// @shortDescription Run the TensorFlow common client
-// @param name string Name for the common client.
-// @param common_serving_ip string IP of the serving service
-// @param image string Image of the common client
-// @optionalParam common_serving_port string 9000 Port of the serving pod
+// @name io.ksonnet.pkg.tf-serving-client
+// @description A TensorFlow serving client
+// @shortDescription Run the TensorFlow serving client
+// @param name string Name for the serving client.
+// @param serving_ip string IP of the serving service
+// @param image string Image of the serving client
+// @optionalParam serving_port string 9000 Port of the serving pod
 // @optionalParam lbip string null client external loadbalancer ip
 // @optionalParam replicas string 1 Number of client replica deployment
 // @optionalParam namespace string null Namespace to use for the components. It is automatically inherited from the environment if not set.
 
 local k = import "k.libsonnet";
-local util = import "ciscoai/tf-commonjob/util.libsonnet";
+local util = import "ciscoai/tf-job/util.libsonnet";
 
 // updatedParams uses the environment namespace if
 // the namespace parameter is not explicitly set
@@ -22,8 +22,8 @@ local updatedParams = params {
 local name = import "param://name";
 local namespace = updatedParams.namespace;
 local replicas = import "param://replicas";
-local host = import "param://common_serving_ip";
-local port = import "param://common_serving_port";
+local host = import "param://serving_ip";
+local port = import "param://serving_port";
 local lbip = import "param://lbip";
 local lb = 
   if lbip == "null" then
@@ -40,26 +40,26 @@ local deployment = {
       "name": name,
       "namespace": namespace,
       "labels": {
-         "app": "common-client",
+         "app": "serving-client",
       }
    },
    "spec": {
       "replicas" : std.parseInt(replicas),
       "selector": {
          "matchLabels": {
-            "app": "common-client"
+            "app": "serving-client"
          }
       },
       "template": {
          "metadata": {
             "labels": {
-               "app": "common-client",
+               "app": "serving-client",
             }
          },
          "spec": {
             "containers": [
                {
-                  "name": "common-client",
+                  "name": "serving-client",
                   "image": image,
                   "env": [
                      {
@@ -100,18 +100,20 @@ local service = {
       "name": name,
       "namespace": namespace,
       "labels": {
-         "app": "common-client"
+         "app": "serving-client"
       }
    },
    "spec": {
-      "type": "NodePort",
+      "type": "LoadBalancer",
+      "loadBalancerIP": lb,
       "ports": [
-        {
-          "port": 80
-        }
+         {
+            "port": 80,
+            targetPort: 80
+         }
       ],
       "selector": {
-         "app": "common-client"
+         "app": "serving-client"
       }
    }
 };

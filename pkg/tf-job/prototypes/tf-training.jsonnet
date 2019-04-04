@@ -1,7 +1,7 @@
 // @apiVersion 0.1
-// @name io.ksonnet.pkg.tf-commonjob
-// @description A TensorFlow common job
-// @shortDescription Run the TensorFlow common job.
+// @name io.ksonnet.pkg.tf-trainingjob
+// @description A TensorFlow training job
+// @shortDescription Run the TensorFlow training job.
 // @param name string Name for the job.
 // @optionalParam namespace string null Namespace to use for the components. It is automatically inherited from the environment if not set.
 // @optionalParam args string null Comma separated list of arguments to pass to the job
@@ -19,7 +19,7 @@ local k = import "k.libsonnet";
 local deployment = k.extensions.v1beta1.deployment;
 local container = deployment.mixin.spec.template.spec.containersType;
 local podTemplate = k.extensions.v1beta1.podTemplate;
-local util = import "ciscoai/tf-commonjob/util.libsonnet";
+local util = import "ciscoai/tf-job/util.libsonnet";
 
 // updatedParams uses the environment namespace if
 // the namespace parameter is not explicitly set
@@ -27,7 +27,7 @@ local updatedParams = params {
   namespace: if params.namespace == "null" then env.namespace else params.namespace,
 };
 
-local tfJob = import "ciscoai/tf-commonjob/tf-job.libsonnet";
+local tfJob = import "ciscoai/tf-job/tf-job.libsonnet";
 
 local name = import "param://name";
 local namespace = updatedParams.namespace;

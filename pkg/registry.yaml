@@ -9,4 +9,4 @@ libraries:
     path: nfs-volume
   tf-commonjob:
     version: master
-    path: tf-commonjob
+    path: tf-job
