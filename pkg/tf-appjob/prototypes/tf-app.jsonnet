@@ -1,5 +1,5 @@
 // @apiVersion 0.1
-// @name io.ksonnet.pkg.tf-trainngjob
+// @name io.ksonnet.pkg.tf-appjob
 // @description A TensorFlow Training job
 // @shortDescription Run the TensorFlow Training job.
 // @param name string Name for the job.
