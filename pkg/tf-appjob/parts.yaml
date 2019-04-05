@@ -1,13 +1,13 @@
 { 
-   "name": "tf-commonjob",
+   "name": "tf-appjob",
    "apiVersion": "0.0.1",
    "kind": "ksonnet.io/parts",
-   "description": "Prototype for Tensorflow common job\n",
-   "author": "Premnath Velmurugan <pvelmuru@cisco.com>",
+   "description": "Prototype for Tensorflow TRAINING job\n",
+   "author": "Johnu George <johnugeo@cisco.com>",
    "contributors": [
       {
-         "name": "Premnath Velmurugan",
-         "email": "pvelmuru@cisco.com"
+         "name": "Johnu George",
+         "email": "johnugeo@cisco.com"
       }
    ],
    "repository": {
@@ -23,13 +23,13 @@
       "database"
    ],
    "quickStart": {
-      "prototype": "io.ksonnet.pkg.tf-commonjob",
-      "componentName": "tf-commonjob",
+      "prototype": "io.ksonnet.pkg.tf-appjob",
+      "componentName": "tf-appjob",
       "flags": {
-         "name": "tf-commonjob",
+         "name": "tf-appjob",
          "namespace": "default"
       },
-      "comment": "Tensorflow common job"
+      "comment": "Tensorflow TRAINING job"
    },
    "license": "Apache 2.0"
 }

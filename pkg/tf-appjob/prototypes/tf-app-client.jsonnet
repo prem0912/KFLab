@@ -1,17 +1,17 @@
 // @apiVersion 0.1
-// @name io.ksonnet.pkg.tf-serving-client
-// @description A TensorFlow serving client
-// @shortDescription Run the TensorFlow serving client
-// @param name string Name for the serving client.
-// @param serving_ip string IP of the serving service
-// @param image string Image of the serving client
-// @optionalParam serving_port string 9000 Port of the serving pod
+// @name io.ksonnet.pkg.tf-app-client
+// @description A TensorFlow app client
+// @shortDescription Run the TensorFlow app client
+// @param name string Name for the app client.
+// @param app_serving_ip string IP of the serving service
+// @param image string Image of the app client
+// @optionalParam app_serving_port string 9000 Port of the serving pod
 // @optionalParam lbip string null client external loadbalancer ip
 // @optionalParam replicas string 1 Number of client replica deployment
 // @optionalParam namespace string null Namespace to use for the components. It is automatically inherited from the environment if not set.
 
 local k = import "k.libsonnet";
-local util = import "ciscoai/tf-job/util.libsonnet";
+local util = import "ciscoai/tf-appjob/util.libsonnet";
 
 // updatedParams uses the environment namespace if
 // the namespace parameter is not explicitly set
@@ -22,8 +22,8 @@ local updatedParams = params {
 local name = import "param://name";
 local namespace = updatedParams.namespace;
 local replicas = import "param://replicas";
-local host = import "param://serving_ip";
-local port = import "param://serving_port";
+local host = import "param://app_serving_ip";
+local port = import "param://app_serving_port";
 local lbip = import "param://lbip";
 local lb = 
   if lbip == "null" then
@@ -40,26 +40,26 @@ local deployment = {
       "name": name,
       "namespace": namespace,
       "labels": {
-         "app": "serving-client",
+         "app": "app-client",
       }
    },
    "spec": {
       "replicas" : std.parseInt(replicas),
       "selector": {
          "matchLabels": {
-            "app": "serving-client"
+            "app": "app-client"
          }
       },
       "template": {
          "metadata": {
             "labels": {
-               "app": "serving-client",
+               "app": "app-client",
             }
          },
          "spec": {
             "containers": [
                {
-                  "name": "serving-client",
+                  "name": "app-client",
                   "image": image,
                   "env": [
                      {
@@ -100,7 +100,7 @@ local service = {
       "name": name,
       "namespace": namespace,
       "labels": {
-         "app": "serving-client"
+         "app": "app-client"
       }
    },
    "spec": {
@@ -113,7 +113,7 @@ local service = {
          }
       ],
       "selector": {
-         "app": "serving-client"
+         "app": "app-client"
       }
    }
 };

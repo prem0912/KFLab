@@ -7,6 +7,6 @@ libraries:
   nfs-volume:
     version: master
     path: nfs-volume
-  tf-commonjob:
+  tf-appjob:
     version: master
-    path: tf-job
+    path: tf-appjob
