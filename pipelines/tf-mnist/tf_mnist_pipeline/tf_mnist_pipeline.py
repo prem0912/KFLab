@@ -19,10 +19,10 @@ def mnist_train_op(tf_export_dir: str, train_steps: int, batch_size: int,
     )
 
 
-def kubeflow_serve_op(model_export_dir:str, step_name='deploy-serving'):
+def kubeflow_serve_op(model_export_dir:str, step_name='serve'):
     return dsl.ContainerOp(
         name=step_name,
-        image='krishnadurai/ml-pipelines-tf-mnist-deploy-service:0.2',
+        image='krishnadurai/ml-pipelines-tf-mnist-serve:0.1',
         arguments=[
             '--model-export-path', model_export_dir,
             '--server-name', 'mnist-service'
@@ -32,7 +32,7 @@ def kubeflow_serve_op(model_export_dir:str, step_name='deploy-serving'):
 def kubeflow_web_ui_op(step_name='web-ui'):
     return dsl.ContainerOp(
         name='web-ui',
-        image='gcr.io/kubeflow-examples/mnist/deploy-service:latest',
+        image='krishnadurai/ml-pipelines-tf-mnist-deploy-service:0.4',
         arguments=[
             '--image', 'gcr.io/kubeflow-examples/mnist/web-ui:'
                        'v20190304-v0.2-176-g15d997b-pipelines',
@@ -67,15 +67,15 @@ def tf_mnist_pipeline(
     mnist_training.add_volume(nfs_volume)
     mnist_training.add_volume_mount(nfs_volume_mount)
 
-    deploy_serving = kubeflow_serve_op('/mnt/%s' % model_export_dir)
-    deploy_serving.add_volume(nfs_volume)
-    deploy_serving.add_volume_mount(nfs_volume_mount)
-    deploy_serving.after(mnist_training)
+    serve = kubeflow_serve_op('/mnt/%s' % model_export_dir)
+    serve.add_volume(nfs_volume)
+    serve.add_volume_mount(nfs_volume_mount)
+    serve.after(mnist_training)
 
     web_ui = kubeflow_web_ui_op()
     web_ui.add_volume(nfs_volume)
     web_ui.add_volume_mount(nfs_volume_mount)
-    web_ui.after(deploy_serving)
+    web_ui.after(serve)
 
 if __name__ == "__main__":
     import kfp.compiler as compiler
