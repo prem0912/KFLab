@@ -66,10 +66,29 @@ Please refer to [MiniKF Readme](https://github.com/ciscoAI/KFLab/blob/master/tf-
 
         $ ks version
 
-    Ksonnet version must be greater than or equal to **0.11.0**. Upgrade to the latest if it is an older version
+    Ksonnet version must be greater than or equal to **0.13.1**. Upgrade to the latest if it is an older version
+
+3. Create a [github account](https://github.com) to be able to clone this repository.
+
+## Google Kubernetes Engine Prerequisites
+
+1. Create a Google Cloud Account
+
+2. Navigate in the Google Cloud Console to Google Kubernetes Engine and create a cluster.
+
+3. Click on the 'Create Cluster' option to create a cluster with 3 `n1-standard-1` nodes and kubernetes master version as `1.11.7-gke.12` or above.
+
+4. **gcloud**
+
+    [Install gcloud SDK](https://cloud.google.com/deployment-manager/docs/step-by-step-guide/installation-and-setup) by skipping to the 'Install Cloud SDK' section given in the hyperlink.
+
+5. Execute `gcloud auth login` command on your shell to authenticate your gcloud account.
+
+6. Press the 'connect' button against your created cluster, then copy the command it provides you and execute it on your shell.
+
+7. `kubectl config current-context` should return your cluster name which you created.
 
 If above commands succeeds, you are good to go !
-
 
 # Installation
 
@@ -225,19 +244,18 @@ step.
          ks delete ${KF_ENV} -c ${JOB}
          ks apply ${KF_ENV} -c ${JOB}
 ## Clean up pods
-	
+
 	./cleanup.bash
 
    Forcefully terminate pods using:
-   
+
    	$ kubectl delete pod <pod_name> --force -n kubeflow --grace-period=0
-	
+
 ### Note
 
 If container needs to use an HTTP, HTTPS, or FTP proxy server (for internet connectivity), configure it by setting the environment variables when building docker image. Set the HTTP, HTTPS, or FTP proxy server environment variable in Dockerfile.
-    
+
 	ENV HTTPS_PROXY "https://127.0.0.1:3001"
 	ENV HTTP_PROXY "http://127.0.0.1:3001"
 	ENV FTP_PROXY "ftp://127.0.0.1:3001"
 	ENV NO_PROXY "*.test.example.com,.example2.com"
-    
