@@ -54,22 +54,6 @@ Please refer to [MiniKF Readme](https://github.com/ciscoAI/KFLab/blob/master/tf-
 
 # Prerequisites
 
-1. **kubectl cli**
-
-   Check if kubectl  is configured properly by accessing the cluster Info of your kubernetes cluster
-
-        $ kubectl cluster-info
-
-2. **ksonnet**
-
-    Check ksonnet version
-
-        $ ks version
-
-    Ksonnet version must be greater than or equal to **0.13.1**. Upgrade to the latest if it is an older version
-
-3. Create a [github account](https://github.com) to be able to clone this repository.
-
 ## Google Kubernetes Engine Prerequisites
 
 1. Create a [Google Cloud Account](https://console.cloud.google.com/)
@@ -90,6 +74,24 @@ Please refer to [MiniKF Readme](https://github.com/ciscoAI/KFLab/blob/master/tf-
 
 8. Create a cluster role for your user by running:  
 `kubectl create clusterrolebinding your-user-cluster-admin-binding --clusterrole=cluster-admin --user=<your@email.com>`
+
+## Setup CLI tools and other accounts
+
+1. **kubectl cli**
+
+   Check if kubectl  is configured properly by accessing the cluster Info of your kubernetes cluster
+
+        $ kubectl cluster-info
+
+2. **ksonnet**
+
+    Check ksonnet version
+
+        $ ks version
+
+    Ksonnet version must be greater than or equal to **0.13.1**. Upgrade to the latest if it is an older version
+
+3. Create a [github account](https://github.com) to be able to clone this repository.
 
 If above commands succeeds, you are good to go !
 
