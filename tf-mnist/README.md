@@ -79,12 +79,14 @@ Please refer to [MiniKF Readme](https://github.com/ciscoAI/KFLab/blob/master/tf-
 
 1. **kubectl cli**
 
+   Install (kubectl)[https://kubernetes.io/docs/tasks/tools/install-kubectl/] if not present already.  
    Check if kubectl  is configured properly by accessing the cluster Info of your kubernetes cluster
 
         $ kubectl cluster-info
 
 2. **ksonnet**
 
+    Install [ksonnet](https://ksonnet.io/get-started/).  
     Check ksonnet version
 
         $ ks version
