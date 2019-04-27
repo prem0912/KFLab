@@ -360,11 +360,15 @@ step.
      ks delete ${KF_ENV} -c ${JOB}
      ks apply ${KF_ENV} -c ${JOB}
 ```
-## Clean up pods
+## Cleaning up pods
 
 ```console
     ./cleanup.bash
 ```
+If GKE cluster was being used, this **DOES NOT DELETE** clusters on GKE.
+Clusters need to be deleted either via the shell (using `gcloud` commands) or
+via the GKE web portal. If the clusters keep running, they will be appropriately
+billed.
 
 Forcefully terminate pods using:
 
