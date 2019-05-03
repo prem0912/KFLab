@@ -1,18 +1,19 @@
 # Table of Contents
-- [What you will learn](#what-you-will-learn)
-- [Overview of the application](#overview-of-the-application)
-    - [Overall Structure](#overall-structure)
-    - [GKE Specific Structure](#gke-specific-structure)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Setup](#setup)
-- [Model Testing](#model-testing)
-    - [Using a local Python client](#using-a-local-python-client)
-    - [Using a web application](#using-a-web-application)
-- [Extras](#extras)
+1. [What you will Learn](#what-you-will-learn)
+2. [Overview of the Application](#overview-of-the-application)
+    1. [Overall Structure](#overall-structure)
+    2. [GKE Specific Structure](#gke-specific-structure)
+3. [Prerequisites](#prerequisites)
+4. [Installation](#installation)
+5. [Setup](#setup)
+6. [Model Testing](#model-testing)
+    1. [Using a local Python client](#using-a-local-python-client)
+    2. [Using a web application](#using-a-web-application)
+7. [Completion Criteria](#completion-criteria)
+8. [Extras](#extras)
 
-# What you will learn
-Doing this application will give you hands on experience on the following:
+# What you will Learn
+Deconstructing the MNIST application will give you hands on experience on the following:
 
 * How to setup a [Kubernetes](https://kubernetes.io/) cluster on [Google Cloud Platform (GCP)](https://cloud.google.com/).
 * How to install [Kubeflow](https://www.kubeflow.org/) on a Kubernetes cluster.
@@ -21,7 +22,9 @@ Doing this application will give you hands on experience on the following:
 * How to test the model using a shell based Python client.
 * How to test the model using a simple browser based application.
 
-# Overview of the application
+Please check the [Completion Criteria](#completion-criteria).
+
+# Overview of the Application
 This tutorial contains instructions to build an **end to end kubeflow app** on a
 Kubernetes cluster running on Google Kubernetes Engine (GKE) with minimal prerequisites.
 *It should work on any other K8s cluster as well.*
@@ -265,6 +268,35 @@ You should see the following result
 Now try a different image in `data` directory :)
 
 ## Using a web application
+
+There are multiple ways of using a web based application to test the model
+serving.
+
+
+### Port Forwarding
+
+A simple way to expose your web application is by port forwarding the mnist client service to your laptop.
+
+```console
+   ./webapp.bash
+```
+
+After running this script, open browser and see app at http://127.0.0.1:9001
+You should see something as follows:
+![Web App](pictures/webapp.png?raw=true "Web app for MNIST")
+
+### NodePort
+
+Another way to expose your web application on the Internet is NodePort. Define
+variables in variables.bash and run the following script:
+
+```console
+   ./webapp.bash
+```
+
+After running this script, you will get the IP adress of your web application.
+Open browser and see app at http://IP_ADRESS:NodePort
+
 ### LoadBalancer
 
 This is ideal if you would like to create a test web application exposed by a loadbalancer.
@@ -296,32 +328,19 @@ Now get the loadbalancer IP of the tf-mnist-client service
     kubectl get svc/tf-mnist-client -n ${NAMESPACE} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
 
-Open browser and see app at http://LoadBalancerIP. You should see something as
-follows:
+Open browser and see app at http://LoadBalancerIP. 
+
+# Completion Criteria
+
+This exercise can be considered complete once the application has been verified
+by [using a python client](#using-a-local-python-client) AND
+by using the [Port Forwarding](#port-forwarding) method for verifying
+[using a web browser](#using-a-web-application). In the below image,
+if the "Inferred Digit"
+correctly identifies the submitted image, as shown in the image below, the application is working as
+expected.
 ![Web App](pictures/webapp.png?raw=true "Web app for MNIST")
 
-
-### Port Forwarding
-
-A simple way to expose your web application is by port forwarding the mnist client service to your laptop.
-
-```console
-   ./webapp.bash
-```
-
-After running this script, open browser and see app at http://127.0.0.1:9001
-
-### NodePort
-
-Another way to expose your web application on the Internet is NodePort. Define
-variables in variables.bash and run the following script:
-
-```console
-   ./webapp.bash
-```
-
-After running this script, you will get the IP adress of your web application.
-Open browser and see app at http://IP_ADRESS:NodePort
 
 # Extras
 
