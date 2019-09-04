@@ -78,11 +78,11 @@ local deployment = {
                   ],
                   "resources": {
                         "requests": {
-                            "memory": "256Mi",
+                            "memory": "512Mi",
                             "cpu": "350m",
                                     },
                         "limits": {
-                            "memory": "356Mi",
+                            "memory": "735Mi",
                             "cpu": "500m",
                          },
                     },
